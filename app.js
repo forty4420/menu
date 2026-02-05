@@ -1087,9 +1087,12 @@ const app = {
     },
     
     selectFormat(formatKey) {
+        console.log('selectFormat called with:', formatKey);
         this.currentFormat = formatKey;
         const format = this.formats[formatKey];
+        console.log('Resizing canvas to:', format.width, 'x', format.height);
         this.resizeCanvas(format.width, format.height);
+        console.log('Calling showStage2()');
         this.showStage2(); // Show style selection
     },
     
@@ -1258,9 +1261,12 @@ const app = {
     // ========== STAGE 2: STYLE SELECTION ==========
     
     showStage2() {
+        console.log('showStage2 called - opening style selection panel');
         this.stage = 2;
         this.updateStageDisplay();
+        console.log('Opening panel...');
         this.openPanel();
+        console.log('Panel should be open now');
 
         const content = `
             <div class="section-title">Select Restaurant Style</div>
@@ -2883,6 +2889,9 @@ Description of the item" style="width: 100%; height: 200px; padding: 10px; backg
     reset() {
         if (confirm('Start over? All progress will be lost.')) {
             this.canvas.clear();
+            this.canvas.setBackgroundImage(null, this.canvas.renderAll.bind(this.canvas));
+            this.canvas.backgroundColor = '#ffffff';
+            this.resizeCanvas(1920, 1080); // Reset to default size
             this.stage = 1;
             this.currentFormat = null;
             this.currentStyle = null;
@@ -2922,16 +2931,24 @@ Description of the item" style="width: 100%; height: 200px; padding: 10px; backg
     },
     
     openPanel() {
-        document.getElementById('main-panel').classList.add('open');
+        const panel = document.getElementById('main-panel');
+        console.log('openPanel called, panel element:', panel);
+        console.log('Panel classes before:', panel.className);
+        panel.classList.add('open');
+        console.log('Panel classes after:', panel.className);
+        console.log('Panel computed height:', getComputedStyle(panel).height);
     },
-    
+
     closePanel() {
+        console.log('closePanel called');
         document.getElementById('main-panel').classList.remove('open');
     },
-    
+
     updatePanelContent(title, content) {
+        console.log('updatePanelContent called, title:', title);
         document.getElementById('panel-title').textContent = title;
         document.getElementById('panel-content').innerHTML = content;
+        console.log('Panel content updated');
     },
     
     onLicenseChanged() {

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Restaurant Menu Creator Pro</title>
+    
+    <!-- ============================================
+         BRANDING CUSTOMIZATION
+         Edit these values to customize your branding
+         ============================================ -->
+    <meta name="app-name" content="Restaurant Menu Creator Pro">
+    <meta name="app-tagline" content="Professional Menu Design Made Easy">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Allura&family=Amatic+SC:wght@700&family=Anton&family=Archivo&family=Archivo+Black&family=Bebas+Neue&family=Bitter&family=Bungee&family=Cardo&family=Caveat&family=Cinzel:wght@700&family=Cookie&family=Cormorant:wght@700&family=Crimson+Text&family=Dancing+Script:wght@700&family=DM+Sans&family=EB+Garamond&family=Fredoka+One&family=Great+Vibes&family=Indie+Flower&family=Inter&family=Kalam&family=Karla&family=Libre+Baskerville&family=Lobster&family=Lora&family=Merriweather&family=Montserrat:wght@400;700&family=Nunito&family=Open+Sans&family=Oswald&family=Outfit&family=Pacifico&family=Patua+One&family=Permanent+Marker&family=Playfair+Display:wght@700&family=Poppins&family=Raleway&family=Righteous&family=Roboto&family=Rubik&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Source+Sans+Pro&family=Vollkorn&family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- License Activation Modal -->
+    <div id="license-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Activate Your License</h2>
+                <i class="fas fa-times close-modal" onclick="closeLicenseModal()"></i>
+            </div>
+            <div class="modal-body">
+                <p>Enter your license key to unlock full features</p>
+                <input type="text" id="license-key-input" placeholder="MENU-XXXX-XXXXXXXXXX" class="license-input">
+                <div id="license-error" class="error-message"></div>
+                <div class="license-actions">
+                    <button class="btn-primary" onclick="validateLicense()">Activate</button>
+                    <button class="btn-secondary" onclick="closeLicenseModal()">Cancel</button>
+                </div>
+                <div class="purchase-links">
+                    <p>Don't have a license?</p>
+                    <a href="#" id="buy-single" class="purchase-link">Buy Single Export - $29.99</a>
+                    <a href="#" id="buy-monthly" class="purchase-link">Subscribe Monthly - $49/mo</a>
+                    <a href="#" id="buy-annual" class="purchase-link">Subscribe Annual - $490/yr</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgrade-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎉 Upgrade to Pro</h2>
+                <i class="fas fa-times close-modal" onclick="closeUpgradeModal()"></i>
+            </div>
+            <div class="modal-body">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Single Export</h3>
+                            <div class="price">$29.99</div>
+                            <div class="price-subtitle">one-time</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Export ONE menu</li>
+                            <li><i class="fas fa-check"></i> High-res, print-ready</li>
+                            <li><i class="fas fa-check"></i> All templates</li>
+                            <li><i class="fas fa-check"></i> Perfect for one-time updates</li>
+                        </ul>
+                        <a href="#" id="buy-single-card" class="btn-purchase">Purchase</a>
+                    </div>
+                    
+                    <div class="pricing-card featured">
+                        <div class="badge">MOST POPULAR</div>
+                        <div class="pricing-header">
+                            <h3>Pro Monthly</h3>
+                            <div class="price">$49</div>
+                            <div class="price-subtitle">per month</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Unlimited exports</li>
+                            <li><i class="fas fa-check"></i> All premium templates</li>
+                            <li><i class="fas fa-check"></i> High-res, print-ready</li>
+                            <li><i class="fas fa-check"></i> Cancel anytime</li>
+                        </ul>
+                        <a href="#" id="buy-monthly-card" class="btn-purchase">Subscribe</a>
+                        <div class="savings-note">💡 Pays for itself after 2 menus!</div>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="badge best-value">BEST VALUE</div>
+                        <div class="pricing-header">
+                            <h3>Pro Annual</h3>
+                            <div class="price">$490</div>
+                            <div class="price-subtitle">per year</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Everything in Monthly</li>
+                            <li><i class="fas fa-check"></i> Save $98 per year</li>
+                            <li><i class="fas fa-check"></i> Only $40.83/month</li>
+                            <li><i class="fas fa-check"></i> 2 months FREE</li>
+                        </ul>
+                        <a href="#" id="buy-annual-card" class="btn-purchase">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Bar -->
+    <div class="system-bar">
+        <div class="sys-group">
+            <button class="icon-btn" id="btn-home" title="Start Over (Reset Everything)"><i class="fas fa-home"></i></button>
+            <button class="icon-btn" id="btn-theme" title="Toggle Dark/Light Theme"><i class="fas fa-adjust"></i></button>
+            <button class="icon-btn" id="btn-undo" title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></button>
+            <button class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></button>
+        </div>
+        <div id="stage-badge" class="step-badge">STAGE 1: FORMAT</div>
+        <div class="sys-group">
+            <div id="license-status" class="license-status" title="Click to Upgrade">
+                <i class="fas fa-lock"></i>
+                <span>Free Mode</span>
+            </div>
+            <button class="icon-btn" id="btn-account" title="License & Account Settings"><i class="fas fa-user"></i></button>
+            <button class="export-btn" id="btn-export" title="Export Menu as PNG">EXPORT</button>
+        </div>
+    </div>
+
+    <!-- Dynamic Toolbar -->
+    <div id="dynamic-toolbar" class="tool-bar">
+        <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Workspace -->
+    <div class="workspace" id="workspace">
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        
+        <!-- Zoom Controls -->
+        <div class="zoom-controls" style="position: fixed; bottom: 140px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 100;">
+            <button id="btn-zoom-in" class="zoom-btn" title="Zoom In (+)">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button id="btn-zoom-reset" class="zoom-btn" title="Fit to Screen (0)">
+                <i class="fas fa-expand"></i>
+            </button>
+            <button id="btn-zoom-out" class="zoom-btn" title="Zoom Out (-)">
+                <i class="fas fa-minus"></i>
+            </button>
+            <div class="zoom-level" style="text-align: center; color: #999; font-size: 0.75rem; font-weight: bold; margin-top: 5px;">
+                <span id="zoom-percentage">100%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAB Button -->
+    <div class="fab-container">
+        <button id="fab-main" class="fab-btn green"><i class="fas fa-check"></i></button>
+        <div id="fab-label" class="fab-label">SELECT FORMAT</div>
+    </div>
+
+    <!-- Bottom Menu -->
+    <div class="bottom-menu">
+        <button class="util-btn" id="btn-grid" title="Toggle Grid (Helps with alignment)"><i class="fas fa-border-all"></i><span>GRID</span></button>
+        <button class="util-btn" id="btn-safe" title="Show Safe Zone (Printable area)"><i class="fas fa-ruler-combined"></i><span>SAFE</span></button>
+        <div class="v-sep"></div>
+        <button class="util-btn" id="btn-front" title="Bring to Front (Move to top layer)"><i class="fas fa-layer-group"></i><i class="fas fa-arrow-up" style="font-size: 0.6em; margin-left: -8px;"></i></button>
+        <button class="util-btn" id="btn-forward" title="Bring Forward (Move up one layer)"><i class="fas fa-arrow-up"></i></button>
+        <button class="util-btn" id="btn-backward" title="Send Backward (Move down one layer)"><i class="fas fa-arrow-down"></i></button>
+        <button class="util-btn" id="btn-back" title="Send to Back (Move to bottom layer)"><i class="fas fa-layer-group"></i><i class="fas fa-arrow-down" style="font-size: 0.6em; margin-left: -8px;"></i></button>
+        <div class="v-sep"></div>
+        <button class="util-btn" id="btn-duplicate" title="Duplicate Selected Object (Ctrl+D)"><i class="far fa-clone"></i><span>DUPLICATE</span></button>
+        <button class="util-btn" id="btn-copy" title="Copy Selected Object (Ctrl+C)"><i class="far fa-copy"></i><span>COPY</span></button>
+        <button class="util-btn" id="btn-paste" title="Paste Copied Object (Ctrl+V)"><i class="far fa-clipboard"></i><span>PASTE</span></button>
+        <button class="util-btn del" id="btn-delete" title="Delete Selected Object (Delete key)"><i class="far fa-trash-alt"></i><span>DELETE</span></button>
+    </div>
+
+    <!-- Properties Panel -->
+    <div class="properties-panel" id="properties-panel">
+        <div class="properties-header">
+            <h3>PROPERTIES</h3>
+            <button class="close-properties" onclick="app.closePropertiesPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="properties-content" id="properties-content">
+            <!-- Properties loaded dynamically -->
+        </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="panel" id="main-panel">
+        <div class="panel-header">
+            <div class="header-left" id="panel-header-left">
+                <div class="header-title" id="panel-title">SELECT FORMAT</div>
+            </div>
+            <i class="fas fa-times close-btn-header" id="close-panel"></i>
+        </div>
+        <div class="panel-content" id="panel-content">
+            <!-- Content dynamically loaded -->
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*">
+    <input type="file" id="logoInput" accept="image/*">
+    <input type="file" id="foodPhotoInput" accept="image/*">
+
+    <script src="config.js"></script>
+    <script src="license-manager.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

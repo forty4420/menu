@@ -1,0 +1,28 @@
+{
+  "name": "restaurant-menu-creator-pro",
+  "version": "1.0.0",
+  "description": "Professional restaurant menu creator with licensing and image processing",
+  "main": "index.html",
+  "scripts": {
+    "start": "npm run serve",
+    "serve": "npx serve -p 3000",
+    "process": "node image-processor.js",
+    "dev": "concurrently \"npm run serve\" \"npm run process\""
+  },
+  "keywords": [
+    "menu",
+    "restaurant",
+    "design",
+    "creator"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.33.0",
+    "chokidar": "^3.5.3"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "serve": "^14.2.1"
+  }
+}

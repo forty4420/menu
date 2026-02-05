@@ -1090,8 +1090,7 @@ const app = {
         this.currentFormat = formatKey;
         const format = this.formats[formatKey];
         this.resizeCanvas(format.width, format.height);
-        this.currentStyle = 'casual'; // Auto-select
-        this.showStage3(); // Skip style selection
+        this.showStage2(); // Show style selection
     },
     
     // ========== QUICK TEMPLATES SYSTEM ==========

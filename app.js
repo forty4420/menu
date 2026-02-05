@@ -1261,7 +1261,8 @@ const app = {
     showStage2() {
         this.stage = 2;
         this.updateStageDisplay();
-        
+        this.openPanel();
+
         const content = `
             <div class="section-title">Select Restaurant Style</div>
             <div class="grid-3">
@@ -1294,7 +1295,8 @@ const app = {
     showStage3() {
         this.stage = 3;
         this.updateStageDisplay();
-        
+        this.openPanel();
+
         // Use preview images for free/single, full for subscribers
         const hasFullAccess = LicenseManager.hasFeature('premiumTemplates');
         const backgrounds = hasFullAccess 

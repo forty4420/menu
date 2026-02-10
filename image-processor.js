@@ -22,7 +22,14 @@ const fs = require('fs');
 // ========== CONFIGURATION ==========
 
 // IMPORTANT: Update this path to your Upscayl installation
-const UPSCAYL_PATH = 'C:\\Program Files\\Upscayl\\resources\\bin\\upscayl-bin.exe'; 
+// Windows: 'C:\\Program Files\\Upscayl\\resources\\bin\\upscayl-bin.exe'
+// macOS: '/Applications/Upscayl.app/Contents/Resources/bin/upscayl-bin'
+// Linux: '/usr/bin/upscayl' or check your installation path
+const UPSCAYL_PATH = process.platform === 'win32'
+    ? 'C:\\Program Files\\Upscayl\\resources\\bin\\upscayl-bin.exe'
+    : process.platform === 'darwin'
+    ? '/Applications/Upscayl.app/Contents/Resources/bin/upscayl-bin'
+    : '/usr/bin/upscayl'; // Linux default 
 
 const WATCH_DIR = './INPUT';
 const TEMP_DIR = './TEMP';
